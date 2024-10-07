@@ -19,10 +19,7 @@ class Task extends Model
     {
         return $this->belongsTo(Project::class);
     }
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -39,5 +36,5 @@ class Task extends Model
         return $query->orderByRaw("FIELD({$column}, '".implode("','", array_keys($priorityOrder))."') ASC")
                     ->{$method}();
     }
-  
+
 }

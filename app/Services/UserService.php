@@ -300,32 +300,40 @@ class UserService
             throw $e;
         }
     }
+ /**
+     *
+     * @param int $userId
+     * @return \Illuminate\Support\Collection
+     * @throws \Exception
+     */
+    public function getUserTasks($userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
 
-public function getUserTasksByProject($projectId, $userId)
-{
-    try {
-        $user = User::findOrFail($userId);
+            $tasks = $user->tasks()->with(['creator', 'assignee', 'project'])->get();
 
-        $tasks = $user->tasks()
-                      ->where('project_id', $projectId)
-                      ->get();
-
-        return $tasks->map(function ($task) {
-            return [
-                'id' => $task->id,
-                'title' => $task->title,
-                'description' => $task->description,
-                'status' => $task->status,
-                'priority' => $task->priority,
-                'due_date' => $task->due_date,
-                'created_by' => $task->creator->name,
-                'assigned_to' => $task->assignee->name,
-            ];
-        });
-    } catch (\Exception $e) {
-        Log::error('Error fetching user tasks in project: ' . $e->getMessage());
-        throw $e;
+            return $tasks->map(function ($task) use ($userId) {
+                return [
+                    'id' => $task->id,
+                    'project_id' => $task->project_id,
+                    'title' => $task->title,
+                    'description' => $task->description,
+                    'status' => $task->status,
+                    'priority' => $task->priority,
+                    'due_date' => $task->due_date,
+                    'note' => $task->note,
+                    'created_at' => $task->created_at,
+                    'updated_at' => $task->updated_at,
+                    'deleted_at' => $task->deleted_at,
+                    'created_by' => $task->creator ? $task->creator->name : null,
+                    'assigned_to' => $task->assignee ? $task->assignee->name : null,
+                    'user_id' => $userId,
+                ];
+            });
+        } catch (\Exception $e) {
+            Log::error('Error fetching user tasks: ' . $e->getMessage());
+            throw $e;
+        }
     }
-}
-
 }

@@ -11,14 +11,7 @@ class ProjectUser extends Pivot
         // The table associated with the model.
         protected $table = 'project_user';
 
-        // Define the fillable properties if you want to mass assign them
-        protected $fillable = [
-            'project_id',
-            'user_id',
-            'role',
-            'contribution_hours',
-            'last_activity',
-        ];
+
 
         // Define the casts for your attributes if needed
         protected $casts = [
@@ -33,6 +26,6 @@ class ProjectUser extends Pivot
             $this->save();
         }
 
-      
+
     }
 

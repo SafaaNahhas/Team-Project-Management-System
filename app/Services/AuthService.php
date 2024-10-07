@@ -21,14 +21,7 @@ class AuthService
      * @param array $credentials The user's email and password.
      * @return array The response containing the authentication token or an error message with the status code.
      */
-    // public function login($credentials)
-    // {
-    //     if (!$token = Auth::attempt($credentials)) {
-    //         return response()->json(['error' => 'Unauthorized'], 401);
-    //     }
-
-    //     return response()->json($this->respondWithToken($token));
-    // }
+ 
     public function login($credentials)
     {
         if (!$token = Auth::attempt($credentials)) {
@@ -49,7 +42,7 @@ class AuthService
         return ['message' => 'Successfully logged out', 'status' => 200];
     }
 
-  
+
     /**
      * Refresh the authentication token for the currently authenticated user.
      *

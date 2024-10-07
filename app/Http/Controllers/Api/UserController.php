@@ -153,20 +153,19 @@ class UserController extends Controller
      * Display a list of tasks for a given user.
      *
      * @param int $userId
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function userTasks($userId)
-{
-    $user = User::findOrFail($userId);
+    {
 
-    $projects = $user->projects;
-    $tasks = Task::whereIn('project_id', $projects->pluck('id'))->get();
+            $tasks = $this->userService->getUserTasks($userId);
 
-    return response()->json([
-        'status' => 'success',
-        'data' => $tasks
-    ], 200);
-}
+            return response()->json([
+                'status' => 'success',
+                'data' => $tasks
+            ], 200);
+
+    }
 /**
  * Display a listing of soft-deleted users.
  *
